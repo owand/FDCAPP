@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       mc:Ignorable="d"
+       xmlns:resources="clr-namespace:FDCAPP.Resources"
+       xmlns:contents="clr-namespace:FDCAPP.Views.Energy"
+       xmlns:views="clr-namespace:FDCAPP.Views.Settings"
+       FlyoutHeaderBehavior="CollapseOnScroll"
+       FlyoutBackgroundColor="#2D353E"
+       x:Class="FDCAPP.Views.Settings.AppShell">
+
+    <Shell.Resources>
+        <Style x:Key="BaseStyle" TargetType="Element">
+            <Setter Property="Shell.BackgroundColor" Value="#2D353E" />
+            <Setter Property="Shell.ForegroundColor" Value="White" />
+            <Setter Property="Shell.TitleColor" Value="White" />
+            <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+            <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+        </Style>
+        <Style TargetType="Shell" BasedOn="{StaticResource BaseStyle}" />
+        <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+    </Shell.Resources>
+
+    <Shell.FlyoutHeader>
+        <views:FlyoutHeader />
+    </Shell.FlyoutHeader>
+
+
+    <!--С помощью свойства Shell.ItemTemplate мы, до некоторой степени, можем настроить отображение FlyoutItem в левом меню.-->
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid HeightRequest="48" >
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{x:OnPlatform Android=DarkOrange}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--<Image Grid.Column="0" Source="{Binding FlyoutIcon}" HeightRequest="{x:OnPlatform Android=24, iOS=22, UWP=16}" />-->
+                <Label Grid.Column="1" Text="{Binding Title}" Margin="12,0,12,0" VerticalTextAlignment="Center" TextColor="White" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <!--С помощью свойства Shell.ItemTemplate мы, до некоторой степени, можем настроить отображение FlyoutMenuItem в левом меню.-->
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <Grid HeightRequest="48" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--<Image Grid.Column="0" Source="{Binding FlyoutIcon}" HeightRequest="{x:OnPlatform Android=24, iOS=22, UWP=16}" />-->
+                <Label Grid.Column="1" Text="{Binding Text}" Margin="12,0,12,0" VerticalTextAlignment="Center" TextColor="White" />
+            </Grid>
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
+
+
+    <!--1й вариант-->
+    <FlyoutItem Title="{x:Static resources:AppResource.TitleFuelDenCalc}" >
+        <ShellContent ContentTemplate="{DataTemplate contents:FuelDenCalcPage}" />
+    </FlyoutItem>
+    <!--2й вариант-->
+    <!--<ShellContent Title="{x:Static resources:AppResource.TitleBitDecode}" ContentTemplate="{DataTemplate contents:BitDecodePage}" Route="bitdecodepage" />-->
+    <!--3й вариант-->
+    <!--<contents:BitDecodePage />-->
+
+    <!--1й вариант-->
+    <!--<FlyoutItem Title="{x:Static resources:AppResource.TitleFuelDenTable}" >
+        <ShellContent ContentTemplate="{DataTemplate contents:FuelDenTablePage}" />
+    </FlyoutItem>-->
+    <!--2й вариант-->
+    <!--<ShellContent Title="{x:Static resources:AppResource.TitleFuelDenTable}" ContentTemplate="{DataTemplate contents:FuelDenTablePage}" Route="bittypepage" />-->
+    <!--3й вариант-->
+    <!--<contents:BitTypePage />-->
+    <!--4й вариант-->
+    <MenuItem Text="{x:Static resources:AppResource.TitleFuelDenTable}" Command="{Binding GoFuelDenTableCommand}" />
+
+    <!--1й вариант-->
+    <!--<FlyoutItem Title="{x:Static resources:AppResource.TitleFuelType}" >
+        <Tab >
+            <ShellContent Title="{x:Static resources:AppResource.TitleEnergy}" ContentTemplate="{DataTemplate contents:EnergyPage}" />
+            <ShellContent Title="{x:Static resources:AppResource.TitleEnergyType}" ContentTemplate="{DataTemplate contents:EnergyTypePage}" />
+        </Tab>
+    </FlyoutItem>-->
+    <!--2й вариант-->
+    <!--<ShellContent Title="{x:Static resources:AppResource.TitleFuelType}" ContentTemplate="{DataTemplate contents:BitODPage}" Route="bitodpage" />-->
+    <!--3й вариант-->
+    <!--<contents:BitODPage />-->
+    <!--4й вариант-->
+    <!--<MenuItem Text="{x:Static resources:AppResource.TitleFuelType}" Command="{Binding GoBitCodeCommand}" />-->
+
+    <!--4й вариант-->
+    <MenuItem Text="{x:Static resources:AppResource.TitleEnergy}" Command="{Binding GoEnergyCommand}" />
+    <!--4й вариант-->
+    <MenuItem Text="{x:Static resources:AppResource.TitleEnergyType}" Command="{Binding GoEnergyTypeCommand}" />
+
+    <!--1й вариант-->
+    <!--<FlyoutItem Title="{x:Static resources:AppResource.SettingsApp}" >
+        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" Route="settingspage" />
+    </FlyoutItem>-->
+    <!--2й вариант-->
+    <!--<ShellContent Title="{x:Static resources:AppResource.SettingsApp}" ContentTemplate="{DataTemplate views:SettingsPage}" Route="settingspage" />-->
+    <!--3й вариант-->
+    <!--<contents:SettingsPage />-->
+    <!--4й вариант-->
+    <!--<MenuItem Text="{x:Static resources:AppResource.SettingsApp}" Clicked="OpenSettings" />-->
+    <MenuItem Text="{x:Static resources:AppResource.SettingsApp}" Command="{Binding GoToSettingsCommand}" />
+
+
+</Shell>

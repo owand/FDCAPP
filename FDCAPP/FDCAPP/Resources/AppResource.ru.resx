@@ -1,0 +1,427 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutApp" xml:space="preserve">
+    <value>Информация о приложении</value>
+    <comment>Заголовок для информации о приложении</comment>
+  </data>
+  <data name="Adblock" xml:space="preserve">
+    <value>Поддержать проект</value>
+    <comment>Текст ссылки для отключения рекламы</comment>
+  </data>
+  <data name="AdblockAbout" xml:space="preserve">
+    <value>Поддержать проект. Отключить рекламу в приложении.</value>
+    <comment>Текст ссылки для отключения рекламы</comment>
+  </data>
+  <data name="Analog" xml:space="preserve">
+    <value>Аналоги:</value>
+    <comment>Заголовок для аналогов</comment>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Расчет плотности топлива</value>
+    <comment>Краткое описание</comment>
+  </data>
+  <data name="AuthorApp" xml:space="preserve">
+    <value>Разработчик</value>
+    <comment>Заголовок для Разработчик</comment>
+  </data>
+  <data name="AuthorName" xml:space="preserve">
+    <value>Андрей Овчаренко</value>
+    <comment>Имя разработчика</comment>
+  </data>
+  <data name="AuthorTitle" xml:space="preserve">
+    <value>Авторство</value>
+    <comment>Заголовок раздела Авторство</comment>
+  </data>
+  <data name="Density" xml:space="preserve">
+    <value>Плотность, г/см3:</value>
+    <comment>Заголовок для плотности</comment>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание:</value>
+    <comment>Заголовок для описания</comment>
+  </data>
+  <data name="LanguageEng" xml:space="preserve">
+    <value>Английский</value>
+    <comment>Английский язык приложения</comment>
+  </data>
+  <data name="Feature" xml:space="preserve">
+    <value>Характеристика:</value>
+    <comment>Заголовок для характеристики</comment>
+  </data>
+  <data name="FilterType" xml:space="preserve">
+    <value>Фильтр по группе</value>
+    <comment>Заголовок для Placeholder-а фильтра по группе</comment>
+  </data>
+  <data name="Formula" xml:space="preserve">
+    <value>Формула:</value>
+    <comment>Заголовок для формулы</comment>
+  </data>
+  <data name="FormulaError" xml:space="preserve">
+    <value>Данные не верны или отсутствуют!</value>
+    <comment>Сообщение об ошибке в формуле</comment>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Назначение / применение:</value>
+    <comment>Заголовок для назначения / применения</comment>
+  </data>
+  <data name="GOST" xml:space="preserve">
+    <value>ТУ, ГОСТ:</value>
+    <comment>Заголовок для ТУ, ГОСТа</comment>
+  </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Группа прочности:</value>
+    <comment>Заголовок для группы прочности</comment>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Класс:</value>
+    <comment>Заголовок для класса</comment>
+  </data>
+  <data name="HeaderAnalog" xml:space="preserve">
+    <value>Аналоги</value>
+    <comment>Заголовок для аналогов в шапке таблицы</comment>
+  </data>
+  <data name="HeaderDescription" xml:space="preserve">
+    <value>Описание</value>
+    <comment>Заголовок для описания в шапке таблицы</comment>
+  </data>
+  <data name="HeaderFeature" xml:space="preserve">
+    <value>Характеристика</value>
+    <comment>Заголовок для характеристики в шапке таблицы</comment>
+  </data>
+  <data name="HeaderFeature1" xml:space="preserve">
+    <value>Характе-
+ристика</value>
+    <comment>Заголовок для характеристики в шапке таблицы</comment>
+  </data>
+  <data name="HeaderFunction" xml:space="preserve">
+    <value>Назначение / применение</value>
+    <comment>Заголовок для назначения / применения в шапке таблицы</comment>
+  </data>
+  <data name="HeaderGOST" xml:space="preserve">
+    <value>ТУ,   ГОСТ</value>
+    <comment>Заголовок для ТУ, ГОСТа</comment>
+  </data>
+  <data name="HeaderMassM" xml:space="preserve">
+    <value>Масса,
+кг/м</value>
+    <comment>Заголовок для массы погонного метра в шапке таблицы</comment>
+  </data>
+  <data name="HeaderMassPcs" xml:space="preserve">
+    <value>Масса,
+кг</value>
+    <comment>Заголовок для массы еденицы</comment>
+  </data>
+  <data name="HeaderName" xml:space="preserve">
+    <value>Название</value>
+    <comment>Заголовок для наименования в шапке таблицы</comment>
+  </data>
+  <data name="HeaderNote" xml:space="preserve">
+    <value>Примечания</value>
+    <comment>Заголовок для примечания в шапке таблицы</comment>
+  </data>
+  <data name="HeaderType" xml:space="preserve">
+    <value>Группа</value>
+    <comment>Заголовок для группы в шапке таблицы</comment>
+  </data>
+  <data name="HeaderTypePipes" xml:space="preserve">
+    <value>Вид труб</value>
+    <comment>Заголовок для Placeholder-а группы труб</comment>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Изображение:</value>
+    <comment>Заголовок для изображения</comment>
+  </data>
+  <data name="inch" xml:space="preserve">
+    <value>дюймов</value>
+    <comment>Заголовок для дюймов</comment>
+  </data>
+  <data name="LanguagesApp" xml:space="preserve">
+    <value>Язык приложения</value>
+    <comment>Язык приложения</comment>
+  </data>
+  <data name="LanguagesSelect" xml:space="preserve">
+    <value>Выберите язык приложения</value>
+    <comment>Язык приложения</comment>
+  </data>
+  <data name="MassM" xml:space="preserve">
+    <value>Масса, кг/м:</value>
+    <comment>Заголовок для массы погонного метра</comment>
+  </data>
+  <data name="MassPcs" xml:space="preserve">
+    <value>Масса, кг:</value>
+    <comment>Заголовок для массы еденицы</comment>
+  </data>
+  <data name="MassT" xml:space="preserve">
+    <value>Масса, тонн:</value>
+    <comment>Заголовок для массы еденицы</comment>
+  </data>
+  <data name="messageAttention" xml:space="preserve">
+    <value>Внимание!</value>
+    <comment>Заголовок для сообщения</comment>
+  </data>
+  <data name="messageDelete" xml:space="preserve">
+    <value>Вы хотите удалить элемент?</value>
+    <comment>Заголовок для сообщения</comment>
+  </data>
+  <data name="messageError" xml:space="preserve">
+    <value>Ошибка!</value>
+    <comment>Сообщение об ошибке</comment>
+  </data>
+  <data name="messageExit" xml:space="preserve">
+    <value>Вы действительно хотите выйти из этого приложения?</value>
+    <comment>Сообщение о выходе из приложения</comment>
+  </data>
+  <data name="messageLanguage" xml:space="preserve">
+    <value>Для изменения языка необходимо перезагрузить приложение!</value>
+    <comment>Сообщение о смене языка</comment>
+  </data>
+  <data name="messageNewItem" xml:space="preserve">
+    <value>Такая запись уже существует!</value>
+    <comment>Заголовок для сообщения</comment>
+  </data>
+  <data name="messageNoActiveRecord" xml:space="preserve">
+    <value>Нет активной записи!</value>
+    <comment>Текст сообщения - Нет активной записи!</comment>
+  </data>
+  <data name="messageOk" xml:space="preserve">
+    <value>Да</value>
+    <comment>Подпись кнопки подтверждения в сообщении</comment>
+  </data>
+  <data name="messageSuccess" xml:space="preserve">
+    <value>Операция выполнена успешно!</value>
+    <comment>Сообщение о выполнении операции</comment>
+  </data>
+  <data name="messageTitleAction" xml:space="preserve">
+    <value>Подтвердить действие!</value>
+    <comment>Заголовок для сообщения</comment>
+  </data>
+  <data name="messageTitleExit" xml:space="preserve">
+    <value>Выйти из приложения?</value>
+    <comment>Заголовок для сообщения о выходе из приложения</comment>
+  </data>
+  <data name="messageСancel" xml:space="preserve">
+    <value>Отмена</value>
+    <comment>Подпись кнопки отмены в сообщении</comment>
+  </data>
+  <data name="mm" xml:space="preserve">
+    <value>мм</value>
+    <comment>Заголовок для миллиметров</comment>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Наименование:</value>
+    <comment>Заголовок для наименования</comment>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Примечания:</value>
+    <comment>Заголовок для примечания</comment>
+  </data>
+  <data name="OSAbout" xml:space="preserve">
+    <value>Приложение на других платформах</value>
+    <comment>Заголовок о других платформах</comment>
+  </data>
+  <data name="OSAndroid" xml:space="preserve">
+    <value>Расчет плотности топлива в Google Play</value>
+    <comment>Ссылка на Google Play</comment>
+  </data>
+  <data name="OSMicrosoft" xml:space="preserve">
+    <value>Расчет плотности топлива в Microsoft Store</value>
+    <comment>Ссылка на Microsoft Store</comment>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Это приложение не собирает и не хранит никакую пользовательскую информацию.</value>
+    <comment>Заявление о конфиденциальности</comment>
+  </data>
+  <data name="PrivacyApp" xml:space="preserve">
+    <value>Конфиденциальность</value>
+    <comment>Заголовок для конфиденциальности</comment>
+  </data>
+  <data name="PrivacyStatement" xml:space="preserve">
+    <value>Заявление о конфиденциальности</value>
+    <comment>Заголовок для заявления о конфиденциальности</comment>
+  </data>
+  <data name="LanguageRus" xml:space="preserve">
+    <value>Русский</value>
+    <comment>Русский язык приложения</comment>
+  </data>
+  <data name="SearchBar" xml:space="preserve">
+    <value>Поиск</value>
+    <comment>Заголовок для Placeholder-а поиска</comment>
+  </data>
+  <data name="SettingsApp" xml:space="preserve">
+    <value>Параметры</value>
+    <comment>Заголовок для параметров</comment>
+  </data>
+  <data name="ThemesApp" xml:space="preserve">
+    <value>Выберите тему приложения</value>
+    <comment>Тема приложения</comment>
+  </data>
+  <data name="ThemesDarkName" xml:space="preserve">
+    <value>Темная</value>
+    <comment>Темная тема приложения</comment>
+  </data>
+  <data name="ThemesLightName" xml:space="preserve">
+    <value>Светлая</value>
+    <comment>Светлая тема приложения</comment>
+  </data>
+  <data name="TitleElementGroup" xml:space="preserve">
+    <value>Группы элементов</value>
+    <comment>Заголовок страницы групп породоразрушающего инструмента</comment>
+  </data>
+  <data name="TitleCalcCement" xml:space="preserve">
+    <value>Расчет плотности топлива</value>
+    <comment>Заголовок страницы Расчет объема тампонажных материалов</comment>
+  </data>
+  <data name="TitleDevelopment" xml:space="preserve">
+    <value>В разработке!</value>
+    <comment>Заголовок В разработке</comment>
+  </data>
+  <data name="TitleEnergy" xml:space="preserve">
+    <value>Топливо</value>
+    <comment>Заголовок страницы Энергоносителей</comment>
+  </data>
+  <data name="TitleEnergyType" xml:space="preserve">
+    <value>Виды топлива</value>
+    <comment>Заголовок страницы Групп энергоносителей</comment>
+  </data>
+  <data name="TitleMasterPage" xml:space="preserve">
+    <value>Меню</value>
+    <comment>Заголовок страницы MasterPage</comment>
+  </data>
+  <data name="TitleRockRang" xml:space="preserve">
+    <value>Категория</value>
+    <comment>Заголовок страницы группы пород</comment>
+  </data>
+  <data name="TitleElementCatalog" xml:space="preserve">
+    <value>Каталог элементов</value>
+    <comment>Заголовок страницы технологической оснастки</comment>
+  </data>
+  <data name="Tonn" xml:space="preserve">
+    <value> тонн</value>
+    <comment>Заголовок для грузоподъемности</comment>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Группа:</value>
+    <comment>Заголовок для группы</comment>
+  </data>
+  <data name="TypePipes" xml:space="preserve">
+    <value>Вид труб:</value>
+    <comment>Заголовок для группы труб</comment>
+  </data>
+  <data name="labVersion" xml:space="preserve">
+    <value>Версия</value>
+    <comment>Заголовок для версии</comment>
+  </data>
+  <data name="VersionDB" xml:space="preserve">
+    <value>Версия базы данных:</value>
+    <comment>Заголовок версии базы данных</comment>
+  </data>
+  <data name="WebApp" xml:space="preserve">
+    <value>Сайт проекта</value>
+    <comment>Сайт проекта</comment>
+  </data>
+  <data name="WrongLabel" xml:space="preserve">
+    <value>Что-то не так? Дайте мне знать </value>
+    <comment>Заголовок для сообщения об ошибке в приложении</comment>
+  </data>
+  <data name="WrongLabelMail" xml:space="preserve">
+    <value>здесь</value>
+    <comment>Заголовок для электронной почты в сообщения об ошибке в приложении</comment>
+  </data>
+  <data name="ToolbarItemFilter" xml:space="preserve">
+    <value>Фильтр</value>
+  </data>
+  <data name="RateApp" xml:space="preserve">
+    <value>Оцените приложение</value>
+  </data>
+  <data name="labelAmt" xml:space="preserve">
+    <value>Количество:</value>
+  </data>
+  <data name="HeaderAmt" xml:space="preserve">
+    <value>Кол-во</value>
+  </data>
+  <data name="TitleFuelCalc" xml:space="preserve">
+    <value>Плотность топлива</value>
+  </data>
+  <data name="TitleFuelType" xml:space="preserve">
+    <value>Виды топлива</value>
+  </data>
+  <data name="TitleFuelDenTable" xml:space="preserve">
+    <value>Таблица плотности</value>
+  </data>
+  <data name="TitleFuelDenCalc" xml:space="preserve">
+    <value>Расчет плотности</value>
+  </data>
+  <data name="TempBaseTitle" xml:space="preserve">
+    <value>Базовая t°C</value>
+  </data>
+  <data name="TempBaseLabel" xml:space="preserve">
+    <value>Базовая t°С:</value>
+  </data>
+  <data name="TableSymbolLabel" xml:space="preserve">
+    <value>Таблица:</value>
+  </data>
+  <data name="TableSymbolTitle" xml:space="preserve">
+    <value>Таблица</value>
+  </data>
+  <data name="EnergyLabel" xml:space="preserve">
+    <value>Топливо:</value>
+  </data>
+  <data name="DensityBaseLabel" xml:space="preserve">
+    <value>Базовая плотность:</value>
+  </data>
+  <data name="DensityBaseTitle" xml:space="preserve">
+    <value>Базовая плотность</value>
+  </data>
+  <data name="DensityLabel" xml:space="preserve">
+    <value>Плотность:</value>
+  </data>
+  <data name="DensityTitle" xml:space="preserve">
+    <value>Плотность</value>
+  </data>
+  <data name="DensityResultLabel" xml:space="preserve">
+    <value>Плотность при заданной температуре, кг/м3</value>
+  </data>
+  <data name="DensityCalcLabel" xml:space="preserve">
+    <value>Плотность, кг/м3:</value>
+  </data>
+  <data name="TempCalcLabel" xml:space="preserve">
+    <value>Температура, °С:</value>
+  </data>
+  <data name="DensityMetodLabel" xml:space="preserve">
+    <value>Метод корректировки плотности:</value>
+  </data>
+  <data name="metricObservedLabel" xml:space="preserve">
+    <value>из плотности при наблюдаемой температуре к базовым условиям</value>
+  </data>
+  <data name="metricBaseLabel" xml:space="preserve">
+    <value>из наблюдаемой плотности при базовой температуре к требуемой</value>
+  </data>
+  <data name="TempBaseCalcLabel" xml:space="preserve">
+    <value>Базовая температура, °С:</value>
+  </data>
+  <data name="CalcButtonLab" xml:space="preserve">
+    <value>Рассчитать</value>
+  </data>
+  <data name="NoConnected" xml:space="preserve">
+    <value>Невозможно подключиться к учетной записи!</value>
+    <comment>Текст ссылки для включения функции редактирования</comment>
+  </data>
+  <data name="messageFormatError" xml:space="preserve">
+    <value>Неверный формат ввода данных!</value>
+  </data>
+  <data name="ThemesOSName" xml:space="preserve">
+    <value>Системная</value>
+  </data>
+</root>
