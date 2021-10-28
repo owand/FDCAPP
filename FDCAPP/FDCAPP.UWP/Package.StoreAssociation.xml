@@ -378,42 +378,42 @@
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>X86</PackageArchitecture>
-        <PackageMaxArchitectureVersion>20.3.53.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>21.6.77.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>X64</PackageArchitecture>
-        <PackageMaxArchitectureVersion>20.3.53.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>21.6.77.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Arm</PackageArchitecture>
-        <PackageMaxArchitectureVersion>20.3.53.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>21.6.77.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>20.3.53.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>21.6.77.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>20.3.53.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>21.6.77.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>20.3.53.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>21.6.77.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>20.3.53.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>21.6.77.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>20.3.53.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>21.6.77.0</PackageMaxArchitectureVersion>
       </PackageInfo>
     </BundleInfo>
   </PackageInfoList>
