@@ -19,7 +19,7 @@ namespace FDCAPP
     {
         // Переменные для базы данных
         public const string dbName = "DBCatalog.db";
-        public const int dbVersion = 64;
+        public const int dbVersion = 65;
 
         public const SQLite.SQLiteOpenFlags Flags =
             SQLite.SQLiteOpenFlags.ReadWrite | // open the database in read/write mode
