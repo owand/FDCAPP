@@ -1,13 +1,12 @@
 ﻿using FDCAPP.Models.Settings;
 using FDCAPP.Resources;
-using FDCAPP.Services;
 using FDCAPP.Views.Settings;
 using SQLite;
 using System;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,15 +17,6 @@ namespace FDCAPP
     public partial class App : Application
     {
         // Переменные для базы данных
-        public const string dbName = "DBCatalog.db";
-        public const int dbVersion = 65;
-
-        public const SQLite.SQLiteOpenFlags Flags =
-            SQLite.SQLiteOpenFlags.ReadWrite | // open the database in read/write mode
-                                               //SQLite.SQLiteOpenFlags.Create | // create the database if it doesn't exist
-            SQLite.SQLiteOpenFlags.SharedCache | // enable multi-threaded database access
-            SQLite.SQLiteOpenFlags.FullMutex;
-
         public static SQLiteConnection database;
         public static SQLiteConnection Database
         {
@@ -34,39 +24,13 @@ namespace FDCAPP
             {
                 try
                 {
-                    // путь, по которому будет находиться база данных
-                    string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), dbName);
-                    //получаем текущую сборку
-                    Assembly assembly = IntrospectionExtensions.GetTypeInfo(typeof(App)).Assembly;
-                    Stream stream = assembly.GetManifestResourceStream($"FDCAPP.{dbName}");
-
-                    if (database == null || database.ExecuteScalar<int>("pragma user_version") < dbVersion)
-                    {
-                        // если база данных не существует (еще не скопирована)
-                        if (!File.Exists(dbPath))
-                        {
-                            //берем из нее ресурс базы данных и создаем из него поток
-                            using (stream)
-                            {
-                                using (FileStream fs = new FileStream(dbPath, FileMode.OpenOrCreate))
-                                {
-                                    stream.CopyTo(fs);  // копируем файл базы данных в нужное нам место
-                                    fs.Flush();
-                                }
-                            }
-                        }
-
-                    }
-                    database = new SQLiteConnection(dbPath, Flags, false);
+                    database = new SQLiteConnection(Constants.DatabasePath, Constants.Flags, false);
                     return database;
                 }
                 catch (Exception ex)
                 {
                     Application.Current.MainPage.DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
-                    if (Device.RuntimePlatform == Xamarin.Forms.Device.Android)
-                    {
-                        DependencyService.Get<ICloseApplication>().CloseApp();
-                    }
+                    System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
                     return database = null;
                 }
             }
@@ -150,12 +114,35 @@ namespace FDCAPP
                 Device.BeginInvokeOnMainThread(async () => { await Settings.ProVersionCheck(); });
             }
 
-            MainPage = new AppShell();
+            //MainPage = new AppShell();
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
             // Handle when your app starts
+            try
+            {
+                if (!File.Exists(Constants.DatabasePath))
+                {
+                    await CopyDBifNotExists();
+                }
+                else if (GetCurrentDBVersion() < Constants.dbVersion)
+                {
+                    Database.Dispose();
+                    Database.Close();
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+
+                    await CopyDBifNotExists();
+                    await Application.Current.MainPage.DisplayAlert("Congratulations! ", " The database has been updated!", AppResource.messageOk); // Что-то пошло не так
+                }
+
+                MainPage = new AppShell();
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
+            }
         }
 
         protected override void OnSleep()
@@ -166,6 +153,83 @@ namespace FDCAPP
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+
+        public async Task CopyDBifNotExists()
+        {
+            try
+            {
+                Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{GetType().Namespace}.{Constants.dbName}");
+                if (stream == null)
+                {
+                    await Current.MainPage.DisplayAlert(AppResource.messageError, "The resource " + Constants.dbName + " was not loaded properly.", AppResource.messageOk); // Что-то пошло не так
+                    System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+                    return;
+                }
+
+                // если база данных не существует (еще не скопирована)
+
+                //вариант 1
+                using (new StreamReader(stream))
+                {
+                    using (FileStream fs = new FileStream(Constants.DatabasePath, FileMode.Create))
+                    {
+                        stream.CopyTo(fs);  // копируем файл базы данных в нужное нам место
+                        fs.Flush();
+                    }
+                }
+
+                //вариант 2
+                //BinaryReader br = new BinaryReader(stream);
+                //using (br)
+                //{
+                //    //FileStream fs = new FileStream(Constants.DatabasePath, FileMode.Create);
+                //    using (BinaryWriter bw = new BinaryWriter(new FileStream(Constants.DatabasePath, FileMode.Create)))
+                //    {
+                //        byte[] buffer = new byte[2048];
+                //        int len;
+                //        while ((len = br.Read(buffer, 0, buffer.Length)) > 0)
+                //        {
+                //            bw.Write(buffer, 0, len);
+                //        }
+                //    }
+                //}
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
+                return;
+            }
+        }
+
+
+        // Get current Data Base Version
+        public int GetCurrentDBVersion()
+        {
+            int currentDbVersion;
+            try
+            {
+                if (Database != null)
+                {
+                    currentDbVersion = Database.ExecuteScalar<int>("pragma user_version");
+                    Database.Close();
+                    Database.Dispose();
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                }
+                else
+                {
+                    currentDbVersion = 0;
+                }
+                return currentDbVersion;
+            }
+            catch (Exception ex)
+            {
+                currentDbVersion = 0;
+                Application.Current.MainPage.DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
+                return currentDbVersion;
+            }
         }
     }
 }
