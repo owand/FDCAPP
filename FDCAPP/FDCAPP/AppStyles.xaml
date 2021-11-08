@@ -151,6 +151,8 @@
     <Style TargetType="Frame" x:Key="frameStyle" ApplyToDerivedTypes="true">
         <Setter Property="Margin" Value="{OnPlatform Android='0,8,8,0', iOS='0,8,8,0', UWP='0,8,0,0'}" />
         <Setter Property="Padding" Value="{x:OnIdiom Phone='4', Tablet='4', Desktop='4'}" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="VerticalOptions" Value="Start" />
     </Style>
 
     <!-- Style for ImageButtonBar -->

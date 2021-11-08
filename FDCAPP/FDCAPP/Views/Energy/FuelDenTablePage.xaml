@@ -61,7 +61,7 @@
                     </StackLayout>
                     <!-- SaveCommandBar -->
                     <StackLayout x:Name="SaveCommandBar" Orientation="Horizontal" HorizontalOptions="End" Spacing="0" IsVisible="False" >
-                        <Button x:Name="SaveButton" Text="{StaticResource SaveIcon}" Released="OnSave" IsEnabled="True" >
+                        <Button Text="{StaticResource SaveIcon}" Released="OnSave" IsEnabled="True" >
                             <Button.Triggers>
                                 <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference picENERGYNAME}, Path=SelectedIndex, Mode=OneWay}" Value="-1">
                                     <Setter Property="IsEnabled" Value="False" />
@@ -81,19 +81,9 @@
                                 <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference editDENSITY}, Path=Text.Length, Mode=OneWay}" Value="0">
                                     <Setter Property="IsEnabled" Value="False" />
                                 </DataTrigger>
-                                <!--<MultiTrigger TargetType="Button">
-                                <MultiTrigger.Conditions>
-                                        <BindingCondition Binding="{Binding Source={x:Reference editBASETEMP}, Path=Text.Length, Mode=OneWay}" Value="0" />
-                                        <BindingCondition Binding="{Binding Source={x:Reference editTABLE}, Path=Text.Length, Mode=OneWay}" Value="0" />
-                                        <BindingCondition Binding="{Binding Source={x:Reference editTEMP}, Path=Text.Length, Mode=OneWay}" Value="0" />
-                                        <BindingCondition Binding="{Binding Source={x:Reference editBASEDENSITY}, Path=Text.Length, Mode=OneWay}" Value="0" />
-                                        <BindingCondition Binding="{Binding Source={x:Reference editDENSITY}, Path=Text.Length, Mode=OneWay}" Value="0" />
-                                    </MultiTrigger.Conditions>
-                                <Setter Property="IsEnabled" Value="False" />
-                            </MultiTrigger>-->
                             </Button.Triggers>
                         </Button>
-                        <Button x:Name="CancelButton" Text="{StaticResource CancelIcon}" Released="OnCancel" />
+                        <Button Text="{StaticResource CancelIcon}" Released="OnCancel" />
                     </StackLayout>
                 </StackLayout>
             </Grid>
@@ -109,7 +99,7 @@
                 <Grid HorizontalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0" RowDefinitions="Auto" ColumnDefinitions="2*, auto, 1*, auto" >
                     <!-- Energy Filter -->
                     <Picker Grid.Column="0" x:Name="picFILTERENERGY" SelectedIndexChanged="OnFilter" Style="{StaticResource filterPickerStyle}"
-                            ItemsSource="{Binding EnergyList}" SelectedItem="{Binding ENERGYID}" ItemDisplayBinding="{Binding ENERGYNAME}" />
+                            ItemsSource="{Binding EnergyList}" ItemDisplayBinding="{Binding ENERGYNAME}" />
                     <Button Grid.Column="1" x:Name="btCancelFilterEnergy" Text="{StaticResource FilterCancelIcon}" Released="OnCancelFilterEnergy" Style="{DynamicResource buttonFilterStyle}" >
                         <Button.Triggers>
                             <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference picFILTERENERGY}, Path=SelectedIndex, Mode=OneWay}" Value="-1">
@@ -171,8 +161,7 @@
 
                 <!-- Detail -->
                 <ScrollView x:Name="Detail" Grid.Row="0" >
-                    <Grid Margin="12,12,8,12" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0" InputTransparent="True"
-                          RowDefinitions="60, 108, 96, 72">
+                    <Grid Margin="12,12,8,12" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0" InputTransparent="True" RowDefinitions="60, 108, 96, 72">
                         <Grid.Triggers>
                             <DataTrigger TargetType="Grid" Binding="{Binding Source={x:Reference Name=SaveCommandBar}, Path=IsVisible}" Value="True">
                                 <Setter Property="InputTransparent" Value="False" />
@@ -238,12 +227,12 @@
                         </Grid>
 
                         <!-- Description -->
-                        <Label Grid.Row="2" Grid.Column="0" x:Name="labDescription" Margin="0,12,0,12" Text="{x:Static resources:AppResource.Description}" TextColor="#515C6B" />
-                        <Editor Grid.Row="2" Grid.Column="1" x:Name="editDESCRIPTION" Text="{Binding SelectItem.DESCRIPTION}" Placeholder="{x:Static resources:AppResource.HeaderDescription}" />
+                        <Label Grid.Row="2" Grid.Column="0" Margin="0,12,0,12" Text="{x:Static resources:AppResource.Description}" TextColor="#515C6B" />
+                        <Editor Grid.Row="2" Grid.Column="1" Text="{Binding SelectItem.DESCRIPTION}" Placeholder="{x:Static resources:AppResource.HeaderDescription}" />
 
                         <!-- Note -->
-                        <Label Grid.Row="3" Grid.Column="0" x:Name="labNote" Margin="0,12,0,12" Text="{x:Static resources:AppResource.Note}" TextColor="#515C6B" />
-                        <Editor Grid.Row="3" Grid.Column="1" x:Name="editNOTE" Text="{Binding SelectItem.NOTE}" Placeholder="{x:Static resources:AppResource.HeaderNote}" />
+                        <Label Grid.Row="3" Grid.Column="0" Margin="0,12,0,12" Text="{x:Static resources:AppResource.Note}" TextColor="#515C6B" />
+                        <Editor Grid.Row="3" Grid.Column="1" Text="{Binding SelectItem.NOTE}" Placeholder="{x:Static resources:AppResource.HeaderNote}" />
                     </Grid>
                 </ScrollView>
 

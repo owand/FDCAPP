@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace DECAPP
+namespace FDCAPP
 {
     public static class Constants
     {

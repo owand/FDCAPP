@@ -55,7 +55,7 @@ namespace FDCAPP.Models.Energy
             }
         }
 
-        public FuelDenModel PreSelectJoinItem { get; set; }
+        public FuelDenModel PreSelectItem { get; set; }
 
 
         #region --------- Filters --------
@@ -260,20 +260,63 @@ namespace FDCAPP.Models.Energy
         }
 
 
-        public List<EnergyModel> EnergyList { get; set; }
-        public int Energy { get; set; }
+        private List<EnergyModel> energyList = App.Database.Table<EnergyModel>().OrderBy(a => a.ENERGYNAME).ToList();
+        public List<EnergyModel> EnergyList
+        {
+            get => energyList;
+            set
+            {
+                energyList = value;
+                OnPropertyChanged(nameof(EnergyList));
+            }
+        }
 
-        public List<FuelDenModel> BaseTempList { get; set; }
-        public int BaseTemp { get; set; }
+        private int energy;
+        public int Energy
+        {
+            get => energy;
+            set
+            {
+                energy = value;
+                OnPropertyChanged(nameof(Energy));
+            }
+        }
+        public int GetEnergy()
+        {
+            return EnergyList.IndexOf(EnergyList.Where(X => X.ENERGYID.ToString().Equals(App.ENERGY)).FirstOrDefault());
+        }
+
+        private List<FuelDenModel> baseTempList = App.Database.Table<FuelDenModel>().ToLookup(x => x.BASETEMP).Select(x => x.First()).OrderBy(a => a.BASETEMP).ToList();
+        public List<FuelDenModel> BaseTempList
+        {
+            get => baseTempList;
+            set
+            {
+                baseTempList = value;
+                OnPropertyChanged(nameof(BaseTempList));
+            }
+        }
+
+        private int baseTemp;
+        public int BaseTemp
+        {
+            get => baseTemp;
+            set
+            {
+                baseTemp = value;
+                OnPropertyChanged(nameof(BaseTemp));
+            }
+        }
+        public int GetBaseTemp()
+        {
+            return BaseTempList.IndexOf(BaseTempList.Where(X => X.BASETEMP.ToString().Equals(App.BaseTEMP)).FirstOrDefault());
+        }
 
 
         public FuelDenCalcViewModel()
         {
-            EnergyList = App.Database.Table<EnergyModel>().OrderBy(a => a.ENERGYNAME).ToList();
-            Energy = EnergyList.IndexOf(EnergyList.Where(X => X.ENERGYID.ToString().Equals(App.ENERGY)).FirstOrDefault());
-
-            BaseTempList = App.Database.Table<FuelDenModel>().ToLookup(x => x.BASETEMP).Select(x => x.First()).OrderBy(a => a.BASETEMP).ToList();
-            BaseTemp = BaseTempList.IndexOf(BaseTempList.Where(X => X.BASETEMP.ToString().Equals(App.BaseTEMP)).FirstOrDefault());
+            energy = GetEnergy();
+            baseTemp = GetBaseTemp();
         }
     }
 

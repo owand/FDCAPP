@@ -27,14 +27,16 @@ namespace FDCAPP.Views.Energy
 
             try
             {
-                if (viewModel == null) // Если не открыт Picer для выбора картинки в Android
-                {
-                    viewModel = new FuelDen();
-                }
+                IsBusy = true; ;  // Затеняем задний фон и запускаем ProgressRing
 
-                BindingContext = viewModel;
+                BindingContext = viewModel = viewModel ?? new FuelDen();
 
                 await RefreshListView();
+
+                viewModel.SelectItem = viewModel.Collection.Count == 0 ? null : viewModel.Collection.FirstOrDefault();
+                MasterContent.ScrollTo(viewModel.SelectItem, ScrollToPosition.Center, true); // Прокручиваем Scroll до активной записи.
+
+                IsBusy = false;
             }
             catch (Exception ex)
             {
@@ -124,6 +126,16 @@ namespace FDCAPP.Views.Energy
         {
             try
             {
+                IsBusy = true; ;  // Затеняем задний фон и запускаем ProgressRing
+
+                if (SaveCommandBar.IsVisible)
+                {
+                    await DisplayAlert(AppResource.messageError, AppResource.FilterError, AppResource.messageOk); // Что-то пошло не так
+                    return;
+                }
+
+                await Task.Delay(100);
+
                 if (!FilterBar.IsVisible)
                 {
                     viewModel.BaseTempList = viewModel.GetBaseTempList();
@@ -135,19 +147,15 @@ namespace FDCAPP.Views.Energy
                 else
                 {
                     picFILTERENERGY.SelectedIndex = -1;
-                    picFILTERENERGY.SelectedItem = null;
                     picFILTERBASETEMP.SelectedIndex = -1;
-                    picFILTERBASETEMP.SelectedItem = null;
                     picFILTERTABLE.SelectedIndex = -1;
-                    picFILTERTABLE.SelectedItem = null;
                     picFILTERTEMP.SelectedIndex = -1;
-                    picFILTERTEMP.SelectedItem = null;
                     picFILTERBASEDENSITY.SelectedIndex = -1;
-                    picFILTERBASEDENSITY.SelectedItem = null;
 
                     FilterBar.IsVisible = false;
-                    await RefreshListView(); // Обновление записей в ListView Collection
                 }
+
+                IsBusy = false;
             }
             catch (Exception ex)
             {
@@ -159,90 +167,37 @@ namespace FDCAPP.Views.Energy
         // Фильтр записей отображаемых в ListView.
         private async void OnFilter(object sender, EventArgs e)
         {
-            try
-            {
-                await RefreshListView(); // Обновление записей в ListView Collection
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
-                return;
-            }
+            await RefreshListView(); // Обновление записей в ListView Collection
         }
 
         // Очищаем фильтр по виду топлива
         private void OnCancelFilterEnergy(object sender, EventArgs e)
         {
-            try
-            {
-                picFILTERENERGY.SelectedIndex = -1;
-                picFILTERENERGY.SelectedItem = null;
-            }
-            catch (Exception ex)
-            {
-                DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
-                return;
-            }
+            picFILTERENERGY.SelectedIndex = -1;
         }
 
         // Очищаем фильтр по базовой температуре
         private void OnCancelFilterBaseTemp(object sender, EventArgs e)
         {
-            try
-            {
-                picFILTERBASETEMP.SelectedIndex = -1;
-                picFILTERBASETEMP.SelectedItem = null;
-            }
-            catch (Exception ex)
-            {
-                DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
-                return;
-            }
+            picFILTERBASETEMP.SelectedIndex = -1;
         }
 
         // Очищаем фильтр по таблице
         private void OnCancelFilterTable(object sender, EventArgs e)
         {
-            try
-            {
-                picFILTERTABLE.SelectedIndex = -1;
-                picFILTERTABLE.SelectedItem = null;
-            }
-            catch (Exception ex)
-            {
-                DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
-                return;
-            }
+            picFILTERTABLE.SelectedIndex = -1;
         }
 
         // Очищаем фильтр по температуре
         private void OnCancelFilterTemp(object sender, EventArgs e)
         {
-            try
-            {
-                picFILTERTEMP.SelectedIndex = -1;
-                picFILTERTEMP.SelectedItem = null;
-            }
-            catch (Exception ex)
-            {
-                DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
-                return;
-            }
+            picFILTERTEMP.SelectedIndex = -1;
         }
 
         // Очищаем фильтр по температуре
         private void OnCancelFilterBaseDensity(object sender, EventArgs e)
         {
-            try
-            {
-                picFILTERBASEDENSITY.SelectedIndex = -1;
-                picFILTERBASEDENSITY.SelectedItem = null;
-            }
-            catch (Exception ex)
-            {
-                DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
-                return;
-            }
+            picFILTERBASEDENSITY.SelectedIndex = -1;
         }
 
         #endregion
@@ -337,13 +292,13 @@ namespace FDCAPP.Views.Energy
             try
             {
                 viewModel.SelectItem.ENERGYID = viewModel.EnergyList[picENERGYNAME.SelectedIndex].ENERGYID;
-                viewModel.SelectItem.BASETEMP = double.Parse(editBASETEMP.Text); // Читаем данные из соответствующего поля.
-                viewModel.SelectItem.TABLE = editTABLE.Text; // Читаем данные из соответствующего поля.
-                viewModel.SelectItem.TEMP = double.Parse(editTEMP.Text); // Читаем данные из соответствующего поля.
-                viewModel.SelectItem.BASEDENSITY = double.Parse(editBASEDENSITY.Text); // Читаем данные из соответствующего поля.
-                viewModel.SelectItem.DENSITY = double.Parse(editDENSITY.Text); // Читаем данные из соответствующего поля.
-                viewModel.SelectItem.DESCRIPTION = editDESCRIPTION.Text; // Читаем данные из соответствующего поля.
-                viewModel.SelectItem.NOTE = editNOTE.Text; // Читаем данные из соответствующего поля.
+                //viewModel.SelectItem.BASETEMP = double.Parse(editBASETEMP.Text); // Читаем данные из соответствующего поля.
+                //viewModel.SelectItem.TABLE = editTABLE.Text; // Читаем данные из соответствующего поля.
+                //viewModel.SelectItem.TEMP = double.Parse(editTEMP.Text); // Читаем данные из соответствующего поля.
+                //viewModel.SelectItem.BASEDENSITY = double.Parse(editBASEDENSITY.Text); // Читаем данные из соответствующего поля.
+                //viewModel.SelectItem.DENSITY = double.Parse(editDENSITY.Text); // Читаем данные из соответствующего поля.
+                //viewModel.SelectItem.DESCRIPTION = editDESCRIPTION.Text; // Читаем данные из соответствующего поля.
+                //viewModel.SelectItem.NOTE = editNOTE.Text; // Читаем данные из соответствующего поля.
 
                 // Сохраняем изменения в текущей записи.
                 viewModel?.UpdateItem();
@@ -361,48 +316,10 @@ namespace FDCAPP.Views.Energy
         // Отмена изменений.
         private void OnCancel(object sender, EventArgs e)
         {
-            try
-            {
-                Cancel(); // Отмена изменений в записи.
-            }
-            catch (Exception ex)
-            {
-                DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
-                return;
-            }
+            Cancel(); // Отмена изменений в записи.
         }
 
         #endregion
-
-        // После обновления записей отображаемых в ListView.
-        private void AfterRefreshList()
-        {
-            try
-            {
-                if (viewModel.Collection.Count != 0)
-                {
-                    if (viewModel.NewItem != null)
-                    {
-                        viewModel.SelectItem = viewModel.PreSelectJoinItem;
-                        viewModel.Collection.Remove(viewModel.NewItem);
-                    }
-                    else if (viewModel.SelectItem == null)
-                    {
-                        viewModel.SelectItem = viewModel.Collection.FirstOrDefault();
-                    }
-                    else
-                    {
-                        viewModel.SelectItem = viewModel.PreSelectJoinItem;
-                    }
-                    MasterContent.ScrollTo(viewModel.SelectItem, ScrollToPosition.Center, true); // Прокручиваем Scroll до активной записи.
-                }
-            }
-            catch (Exception ex)
-            {
-                DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
-                return;
-            }
-        }
 
         // hardware back button
         protected override bool OnBackButtonPressed()
@@ -415,7 +332,7 @@ namespace FDCAPP.Views.Energy
                 {
                     Shell.Current.Navigating -= Current_Navigating; // Отписываемся от события Shell.OnNavigating
                     viewModel = null;
-                    Device.BeginInvokeOnMainThread(async () => { await Shell.Current.GoToAsync("..", true); });
+                    Shell.Current.GoToAsync("..", true);
                 }
                 else if ((viewModel?.DetailMode == true) && (SaveCommandBar.IsVisible == true))
                 {
@@ -438,12 +355,26 @@ namespace FDCAPP.Views.Energy
             try
             {
                 SaveCommandBar.IsVisible = false;
-                AfterRefreshList();  // После обновления записей отображаемых в ListView.
+
+                // После обновления записей отображаемых в ListView.
+                if (viewModel.Collection.Count != 0)
+                {
+                    if (viewModel.NewItem != null)
+                    {
+                        viewModel.SelectItem = viewModel.PreSelectItem;
+                        viewModel.Collection.Remove(viewModel.NewItem);
+                    }
+                    else
+                    {
+                        viewModel.SelectItem = viewModel.SelectItem == null ? viewModel.Collection.FirstOrDefault() : viewModel.PreSelectItem;
+                    }
+                    MasterContent.ScrollTo(viewModel.SelectItem, ScrollToPosition.Center, true); // Прокручиваем Scroll до активной записи.
+                }
 
                 viewModel.NewItem = null;
 
                 //viewModel.DetailMode = true;
-                viewModel.DetailMode = (Device.Idiom == TargetIdiom.Desktop || Device.Idiom == TargetIdiom.Tablet) && Shell.Current.Height > 800 ? false : true;
+                viewModel.DetailMode = Device.Idiom != TargetIdiom.Desktop && Device.Idiom != TargetIdiom.Tablet || Shell.Current.Height <= 800;
 
                 OnSizeChangeInterface(); // Изменение интерфейса при изменении размера окна
             }
@@ -459,7 +390,7 @@ namespace FDCAPP.Views.Energy
         {
             try
             {
-                viewModel.PreSelectJoinItem = viewModel.SelectItem;
+                viewModel.PreSelectItem = viewModel.SelectItem;
                 viewModel.DetailMode = true;
                 SaveCommandBar.IsVisible = true;
                 OnSizeChangeInterface(); // Изменение интерфейса при изменении размера окна
@@ -558,10 +489,10 @@ namespace FDCAPP.Views.Energy
                 MasterContent.IsRefreshing = true;
 
                 viewModel.Collection = viewModel.GetCollection(picFILTERENERGY.SelectedIndex < 0 ? null : viewModel.EnergyList?[picFILTERENERGY.SelectedIndex].ENERGYID.ToString(),
-                                                               picFILTERBASETEMP.SelectedItem == null ? null : picFILTERBASETEMP.SelectedItem.ToString(),
-                                                               picFILTERTABLE.SelectedItem == null ? null : picFILTERTABLE.SelectedItem.ToString(),
-                                                               picFILTERTEMP.SelectedItem == null ? null : picFILTERTEMP.SelectedItem.ToString(),
-                                                               picFILTERBASEDENSITY.SelectedItem == null ? null : picFILTERBASEDENSITY.SelectedItem.ToString());
+                                                               picFILTERBASETEMP.SelectedItem?.ToString(),
+                                                               picFILTERTABLE.SelectedItem?.ToString(),
+                                                               picFILTERTEMP.SelectedItem?.ToString(),
+                                                               picFILTERBASEDENSITY.SelectedItem?.ToString());
 
                 MasterContent.ItemsSource = viewModel.Collection;
 
@@ -569,8 +500,6 @@ namespace FDCAPP.Views.Energy
                 MasterContent.EndRefresh();
 
                 IsBusy = false;
-
-                AfterRefreshList();  // После обновления записей отображаемых в ListView.
             }
             catch (Exception ex)
             {

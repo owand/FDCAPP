@@ -509,4 +509,7 @@ kg</value>
     <value>Default</value>
     <comment>Тема приложения по умолчанию</comment>
   </data>
+  <data name="FilterError" xml:space="preserve">
+    <value>Active editing mode!</value>
+  </data>
 </root>

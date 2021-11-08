@@ -1,6 +1,5 @@
 ﻿using FDCAPP.Models.Energy;
 using FDCAPP.Resources;
-using FDCAPP.Services;
 using System;
 using System.Linq;
 using Xamarin.Forms;
@@ -34,6 +33,7 @@ namespace FDCAPP.Views.Energy
         {
             InitializeComponent();
             LayoutChanged += OnSizeChanged; // Определяем обработчик события, которое происходит, когда изменяется ширина или высота.
+            Shell.Current.Navigating += Current_Navigating; // Определяем обработчик события Shell.OnNavigating
         }
 
         // События непосредственно перед тем как страница становится видимой.
@@ -45,14 +45,7 @@ namespace FDCAPP.Views.Energy
             {
                 IsBusy = true;
 
-                await System.Threading.Tasks.Task.Delay(100);
-
-                if (viewModel == null) // Если не открыт Picer для выбора картинки в Android
-                {
-                    viewModel = new FuelDenCalcViewModel();
-                }
-
-                BindingContext = viewModel;
+                BindingContext = viewModel = viewModel ?? new FuelDenCalcViewModel();
 
                 entrDENSITY.Text = DENSITY.ToString("N2");
                 entrTEMP.Text = TEMP.ToString("N2");
@@ -65,6 +58,15 @@ namespace FDCAPP.Views.Energy
             {
                 await DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
                 return;
+            }
+        }
+
+        private void Current_Navigating(object sender, ShellNavigatingEventArgs e)
+        {
+            if (e.CanCancel)
+            {
+                e.Cancel(); // Позволяет отменить навигацию
+                OnBackButtonPressed();
             }
         }
 
@@ -306,74 +308,68 @@ namespace FDCAPP.Views.Energy
             }
         }
 
-        private void OnCalculate(object sender, EventArgs e)
+        private async void OnCalculate(object sender, EventArgs e)
         {
             try
             {
-                Device.BeginInvokeOnMainThread(async () =>
+                IsBusy = true; ;  // Затеняем задний фон и запускаем ProgressRing
+
+                viewModel.Collection = null;
+                viewModel.Collection = viewModel.GetCollection(App.ENERGY, App.BaseTEMP, TableSYMBOL);
+
+                IsBusy = false;
+                resultDENSITY.Text = string.Empty;
+
+                if ((picENERGY.SelectedIndex < 0) || (picTEMP.SelectedIndex < 0) || string.IsNullOrEmpty(entrDENSITY.Text) || string.IsNullOrEmpty(entrTEMP.Text) || viewModel.Collection.Count == 0)
                 {
-                    indicator.IsRunning = true;
-                    IsBusy = true; ;  // Затеняем задний фон и запускаем ProgressRing
-                    await System.Threading.Tasks.Task.Delay(100);
+                    await DisplayAlert(AppResource.messageAttention, AppResource.FormulaError, AppResource.messageСancel); // Что-то пошло не так
+                    return;
+                }
 
-                    viewModel.Collection = null;
-                    viewModel.Collection = viewModel.GetCollection(App.ENERGY, App.BaseTEMP, TableSYMBOL);
+                double minBaseDENSITY = 0.000;
+                double maxBaseDENSITY = 0.000;
+                double MinTEMP = 0.000;
+                double MaxTEMP = 0.000;
+                double MinDENSITY = 0.000;
+                double MaxDENSITY = 0.000;
+                double ObservedDENSITY = 0.000;
 
-                    IsBusy = false;
-                    indicator.IsRunning = false;
-                    resultDENSITY.Text = string.Empty;
+                if (!viewModel.Collection.Where(X => X.BASEDENSITY < DENSITY).Any() || !viewModel.Collection.Where(X => X.BASEDENSITY > DENSITY).Any() ||
+                !viewModel.Collection.Where(X => X.TEMP > TEMP).Any() || !viewModel.Collection.Where(X => X.TEMP < TEMP).Any())
+                {
+                    await DisplayAlert(AppResource.messageAttention, AppResource.FormulaError, AppResource.messageСancel); // Что-то пошло не так
+                    return;
+                }
 
-                    if ((picENERGY.SelectedIndex < 0) || (picTEMP.SelectedIndex < 0) || string.IsNullOrEmpty(entrDENSITY.Text) || string.IsNullOrEmpty(entrTEMP.Text) || viewModel.Collection.Count == 0)
-                    {
-                        Device.BeginInvokeOnMainThread(async () => { await DisplayAlert(AppResource.messageAttention, AppResource.FormulaError, AppResource.messageСancel); }); // Что-то пошло не так
-                        return;
-                    }
+                minBaseDENSITY = viewModel.Collection.Where(X => X.BASEDENSITY < DENSITY).Last().BASEDENSITY;
+                maxBaseDENSITY = viewModel.Collection.Where(X => X.BASEDENSITY >= DENSITY).First().BASEDENSITY;
 
-                    double minBaseDENSITY = 0.000;
-                    double maxBaseDENSITY = 0.000;
-                    double MinTEMP = 0.000;
-                    double MaxTEMP = 0.000;
-                    double MinDENSITY = 0.000;
-                    double MaxDENSITY = 0.000;
-                    double ObservedDENSITY = 0.000;
-
-                    if (!viewModel.Collection.Where(X => X.BASEDENSITY < DENSITY).Any() || !viewModel.Collection.Where(X => X.BASEDENSITY > DENSITY).Any() ||
-                    !viewModel.Collection.Where(X => X.TEMP > TEMP).Any() || !viewModel.Collection.Where(X => X.TEMP < TEMP).Any())
-                    {
-                        Device.BeginInvokeOnMainThread(async () => { await DisplayAlert(AppResource.messageAttention, AppResource.FormulaError, AppResource.messageСancel); }); // Что-то пошло не так
-                        return;
-                    }
-
-                    minBaseDENSITY = viewModel.Collection.Where(X => X.BASEDENSITY < DENSITY).Last().BASEDENSITY;
-                    maxBaseDENSITY = viewModel.Collection.Where(X => X.BASEDENSITY >= DENSITY).First().BASEDENSITY;
-
-                    MinTEMP = viewModel.Collection.Where(X => X.TEMP < TEMP).Last().TEMP;
-                    MaxTEMP = viewModel.Collection.Where(X => X.TEMP > TEMP).First().TEMP;
+                MinTEMP = viewModel.Collection.Where(X => X.TEMP < TEMP).Last().TEMP;
+                MaxTEMP = viewModel.Collection.Where(X => X.TEMP > TEMP).First().TEMP;
 
 
-                    //if (minBaseDENSITY == 0 || maxBaseDENSITY == 0 || MinTEMP == 0 || maxBaseDENSITY == 0)
-                    //if (minBaseDENSITY == 0 || maxBaseDENSITY == 0)
-                    //{
-                    //    Device.BeginInvokeOnMainThread(async () => { await DisplayAlert(AppResource.messageAttention, AppResource.FormulaError, AppResource.messageСancel); }); // Что-то пошло не так
-                    //    return;
-                    //}
+                //if (minBaseDENSITY == 0 || maxBaseDENSITY == 0 || MinTEMP == 0 || maxBaseDENSITY == 0)
+                //if (minBaseDENSITY == 0 || maxBaseDENSITY == 0)
+                //{
+                //    Device.BeginInvokeOnMainThread(async () => { await DisplayAlert(AppResource.messageAttention, AppResource.FormulaError, AppResource.messageСancel); }); // Что-то пошло не так
+                //    return;
+                //}
 
-                    double MinDENSITY_MinTEMP = viewModel.Collection.Where(X => X.TEMP == MinTEMP && X.BASEDENSITY == minBaseDENSITY).FirstOrDefault().DENSITY;
-                    double MaxDENSITY_MinTEMP = viewModel.Collection.Where(X => X.TEMP == MinTEMP && X.BASEDENSITY == maxBaseDENSITY).FirstOrDefault().DENSITY;
-                    MinDENSITY = MinDENSITY_MinTEMP + ((DENSITY - minBaseDENSITY) * (MaxDENSITY_MinTEMP - MinDENSITY_MinTEMP)) / 10;
+                double MinDENSITY_MinTEMP = viewModel.Collection.Where(X => X.TEMP == MinTEMP && X.BASEDENSITY == minBaseDENSITY).FirstOrDefault().DENSITY;
+                double MaxDENSITY_MinTEMP = viewModel.Collection.Where(X => X.TEMP == MinTEMP && X.BASEDENSITY == maxBaseDENSITY).FirstOrDefault().DENSITY;
+                MinDENSITY = MinDENSITY_MinTEMP + (DENSITY - minBaseDENSITY) * (MaxDENSITY_MinTEMP - MinDENSITY_MinTEMP) / 10;
 
-                    double MinDENSITY_MaxTEMP = viewModel.Collection.Where(X => X.TEMP == MaxTEMP && X.BASEDENSITY == minBaseDENSITY).FirstOrDefault().DENSITY;
-                    double MaxDENSITY_MaxTEMP = viewModel.Collection.Where(X => X.TEMP == MaxTEMP && X.BASEDENSITY == maxBaseDENSITY).FirstOrDefault().DENSITY;
-                    MaxDENSITY = MinDENSITY_MaxTEMP + ((DENSITY - minBaseDENSITY) * (MaxDENSITY_MaxTEMP - MinDENSITY_MaxTEMP)) / 10;
+                double MinDENSITY_MaxTEMP = viewModel.Collection.Where(X => X.TEMP == MaxTEMP && X.BASEDENSITY == minBaseDENSITY).FirstOrDefault().DENSITY;
+                double MaxDENSITY_MaxTEMP = viewModel.Collection.Where(X => X.TEMP == MaxTEMP && X.BASEDENSITY == maxBaseDENSITY).FirstOrDefault().DENSITY;
+                MaxDENSITY = MinDENSITY_MaxTEMP + (DENSITY - minBaseDENSITY) * (MaxDENSITY_MaxTEMP - MinDENSITY_MaxTEMP) / 10;
 
-                    ObservedDENSITY = (MinDENSITY + MaxDENSITY) / 2;
+                ObservedDENSITY = (MinDENSITY + MaxDENSITY) / 2;
 
-                    resultDENSITY.Text = ObservedDENSITY.ToString("N2");
-                });
+                resultDENSITY.Text = ObservedDENSITY.ToString("N2");
             }
             catch (Exception ex)
             {
-                DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
+                await DisplayAlert(AppResource.messageError, ex.Message, AppResource.messageOk); // Что-то пошло не так
                 return;
             }
         }
@@ -385,16 +381,9 @@ namespace FDCAPP.Views.Energy
 
             try
             {
-                Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
-                {
-                    if (await DisplayAlert(AppResource.messageTitleExit, AppResource.messageExit, AppResource.messageOk, AppResource.messageСancel))
-                    {
-                        if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
-                        {
-                            DependencyService.Get<ICloseApplication>().CloseApp();
-                        }
-                    }
-                });
+                Shell.Current.Navigating -= Current_Navigating; // Отписываемся от события Shell.OnNavigating
+                viewModel = null;
+                Shell.Current.GoToAsync("..", true);
             }
             catch { return false; }
             // Always return true because this method is not asynchronous.

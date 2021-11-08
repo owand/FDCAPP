@@ -424,4 +424,7 @@
   <data name="ThemesOSName" xml:space="preserve">
     <value>Системная</value>
   </data>
+  <data name="FilterError" xml:space="preserve">
+    <value>Активный режим редактирования!</value>
+  </data>
 </root>

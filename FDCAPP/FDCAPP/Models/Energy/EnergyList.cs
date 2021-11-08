@@ -55,14 +55,14 @@ namespace FDCAPP.Models.Energy
             return new ObservableCollection<EnergyJoin>(_collection);
         }
 
-        private EnergyJoin selectJoinItem = null;
-        public EnergyJoin SelectJoinItem
+        private EnergyJoin selectItem = null;
+        public EnergyJoin SelectItem
         {
-            get => selectJoinItem;
+            get => selectItem;
             set
             {
-                selectJoinItem = value;
-                OnPropertyChanged(nameof(SelectJoinItem));
+                selectItem = value;
+                OnPropertyChanged(nameof(SelectItem));
                 GetIndexTypeList();
             }
         }
@@ -78,37 +78,37 @@ namespace FDCAPP.Models.Energy
             }
         }
 
-        public EnergyJoin PreSelectJoinItem { get; set; }
+        public EnergyJoin PreSelectItem { get; set; }
 
         #endregion ------------------------------------
 
 
         #region --------- Основная коллекция --------
 
-        private EnergyModel selectItem = null;
-        public EnergyModel SelectItem
+        private EnergyModel selectHostItem = null;
+        public EnergyModel SelectHostItem
         {
-            get => selectItem;
+            get => selectHostItem;
             set
             {
-                selectItem = value;
-                OnPropertyChanged(nameof(SelectItem));
+                selectHostItem = value;
+                OnPropertyChanged(nameof(SelectHostItem));
             }
+        }
+        public EnergyModel GetSelectHostItem()
+        {
+            return App.Database.Table<EnergyModel>().FirstOrDefault(a => a.ENERGYID == SelectItem.ID);
         }
 
-        private EnergyModel newItem = null;
-        public EnergyModel NewItem
+        private EnergyModel newHostItem = null;
+        public EnergyModel NewHostItem
         {
-            get => newItem;
+            get => newHostItem;
             set
             {
-                newItem = value;
-                OnPropertyChanged(nameof(NewItem));
+                newHostItem = value;
+                OnPropertyChanged(nameof(NewHostItem));
             }
-        }
-        public EnergyModel GetSelectItem()
-        {
-            return App.Database.Table<EnergyModel>().FirstOrDefault(a => a.ENERGYID == SelectJoinItem.ID);
         }
 
         #endregion ------------------------------------
@@ -139,7 +139,7 @@ namespace FDCAPP.Models.Energy
         }
         public EnergySubModel GetSelectSubItem()
         {
-            return App.Database.Table<EnergySubModel>().FirstOrDefault(a => a.LANGUAGE == App.AppLanguage && a.ENERGYID == SelectJoinItem.ID);
+            return App.Database.Table<EnergySubModel>().FirstOrDefault(a => a.LANGUAGE == App.AppLanguage && a.ENERGYID == SelectItem.ID);
         }
 
         #endregion ------------------------------------
@@ -168,7 +168,7 @@ namespace FDCAPP.Models.Energy
         }
         public int GetIndexTypeList()
         {
-            IndexTypeList = TypeList.IndexOf(TypeList.Where(X => X.TYPEID == SelectJoinItem?.TYPEID).FirstOrDefault());
+            IndexTypeList = TypeList.IndexOf(TypeList.Where(X => X.TYPEID == SelectItem?.TYPEID).FirstOrDefault());
             return IndexTypeList;
         }
 
@@ -200,7 +200,7 @@ namespace FDCAPP.Models.Energy
             {
                 NewJoinItem = new EnergyJoin();
                 Collection.Add(NewJoinItem);
-                SelectJoinItem = NewJoinItem;
+                SelectItem = NewJoinItem;
             }
             catch (SQLiteException ex)
             {
@@ -214,39 +214,22 @@ namespace FDCAPP.Models.Energy
             }
         }
 
-        // Сохраняем новую или изменяем запись в основной и подчиненной коллекциях
+        // Сохраняем новую или изменяем запись в основной коллекции
         public void UpdateItem()
         {
             try
             {
                 lock (collisionLock)
                 {
-                    if (SelectItem != null)
+                    if (SelectHostItem != null)
                     {
-                        App.Database.Update(SelectItem);
-
-                        if (SelectSubItem != null)
-                        {
-                            App.Database.Update(SelectSubItem);
-                            SelectSubItem = null;
-                        }
-                        else
-                        {
-                            App.Database.Insert(NewSubItem);
-                            NewSubItem = null;
-                        }
-
-                        SelectItem = null;
+                        App.Database.Update(SelectHostItem);
                     }
                     else
                     {
-                        App.Database.Insert(NewItem);
+                        App.Database.Insert(NewHostItem);
                     }
                 }
-
-                NewJoinItem = null;
-
-                DetailMode = true;
             }
             catch (SQLiteException ex)
             {
@@ -255,18 +238,22 @@ namespace FDCAPP.Models.Energy
             }
         }
 
-        // Сохраняем новую в подчиненной коллекции
-        public void InsertSubItem()
+        // Сохраняем новую или изменяем запись в подчиненной коллекции
+        public void UpdateSubItem()
         {
             try
             {
                 lock (collisionLock)
                 {
-                    App.Database.Insert(NewSubItem);
+                    if (SelectSubItem != null)
+                    {
+                        App.Database.Update(SelectSubItem);
+                    }
+                    else
+                    {
+                        App.Database.Insert(NewSubItem);
+                    }
                 }
-
-                NewItem = null;
-                NewSubItem = null;
             }
             catch (SQLiteException ex)
             {
@@ -282,9 +269,9 @@ namespace FDCAPP.Models.Energy
             {
                 lock (collisionLock)
                 {
-                    App.Database.Delete<EnergyModel>(SelectJoinItem.ID);
-                    App.Database.Delete<EnergySubModel>(SelectJoinItem.ID);
-                    Collection.Remove(SelectJoinItem);
+                    App.Database.Delete<EnergyModel>(SelectItem.ID);
+                    App.Database.Delete<EnergySubModel>(SelectItem.ID);
+                    Collection.Remove(SelectItem);
                 }
             }
             catch (SQLiteException ex)
@@ -293,7 +280,6 @@ namespace FDCAPP.Models.Energy
                 return;
             }
         }
-
     }
 
 

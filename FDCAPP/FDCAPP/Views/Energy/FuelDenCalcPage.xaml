@@ -38,12 +38,12 @@
             <!--Header-->
             <Grid x:Name="Header" ColumnSpacing="0" RowSpacing="0" BackgroundColor="#515C6B" HeightRequest="48" MinimumHeightRequest="48" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{x:OnIdiom Tablet=500, Desktop=500, Phone=*}" />
-                    <ColumnDefinition Width="{x:OnIdiom Tablet=*, Desktop=*, Phone=0}" />
+                    <ColumnDefinition Width="{x:OnIdiom Tablet='500', Desktop='500', Phone='*'}" />
+                    <ColumnDefinition Width="{x:OnIdiom Tablet='*', Desktop='*', Phone='0'}" />
                 </Grid.ColumnDefinitions>
                 <!--Header Results-->
-                <Grid Grid.Column="0" ColumnSpacing="0" RowSpacing="0" ColumnDefinitions="*, auto, auto">
-                    <Label Grid.Column="0" Text="{x:Static resources:AppResource.DensityResultLabel}" FontSize="{OnPlatform Android=14, iOS=14, UWP=16}" TextColor="White"
+                <Grid Grid.Column="0" ColumnSpacing="0" RowSpacing="0"  ColumnDefinitions="*, auto, auto">
+                    <Label Grid.Column="0" Text="{x:Static resources:AppResource.DensityResultLabel}" FontSize="{OnPlatform Android='14', iOS='14', UWP='16'}" TextColor="White"
                            VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap" Margin="{OnPlatform Android='4,4,8,4', iOS='4,4,8,4', UWP='12,0,8,4'}" />
                     <Label Grid.Column="1" x:Name="resultDENSITY" FontAttributes="Bold" TextColor="DarkOrange"
                            Margin="{OnPlatform Android='8,4,16,4', iOS='8,4,16,4', UWP='12,0,16,4'}"
@@ -57,9 +57,9 @@
             <ScrollView VerticalOptions="FillAndExpand" >
                 <Grid x:Name="FormulaContent" ColumnSpacing="0" RowSpacing="0" VerticalOptions="FillAndExpand" RowDefinitions="auto, auto, auto, auto, *">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{x:OnIdiom Tablet=500, Desktop=500, Phone=*}" />
-                        <ColumnDefinition Width="{x:OnIdiom Tablet=*, Desktop=*, Phone=0}" />
-                        <ColumnDefinition Width="{x:OnIdiom Tablet=500, Desktop=500, Phone=0}" />
+                        <ColumnDefinition Width="{x:OnIdiom Tablet='500', Desktop='500', Phone='*'}" />
+                        <ColumnDefinition Width="{x:OnIdiom Tablet='*', Desktop='*', Phone='0'}" />
+                        <ColumnDefinition Width="{x:OnIdiom Tablet='500', Desktop='500', Phone='0'}" />
                     </Grid.ColumnDefinitions>
 
                     <!-- Formula parameters -->
@@ -103,7 +103,7 @@
                     <!-- Metod to correct density -->
                     <Label Grid.Column="0" Grid.Row="1" Margin="16,8,12,0" Text="{x:Static resources:AppResource.DensityMetodLabel}"
                            TextColor="#515C6B" VerticalOptions="CenterAndExpand" />
-                    <Grid Grid.Column="0" Grid.Row="2" Margin="8,0,12,8" ColumnSpacing="0" RowSpacing="0" ColumnDefinitions="40, *" RowDefinitions="44, 44">
+                    <Grid Grid.Column="0" Grid.Row="2" Margin="8,0,12,8" ColumnSpacing="0" RowSpacing="0" ColumnDefinitions="40, *" RowDefinitions="44, 44" >
                         <!-- metric observed -->
                         <CheckBox Grid.Row="0" Grid.Column="0" x:Name="metricObserved" VerticalOptions="CenterAndExpand" HorizontalOptions="Start"
                                   IsChecked="true" Color="#515C6B" CheckedChanged="SwitchObserved" IsEnabled="False"
@@ -122,11 +122,6 @@
                           ColumnDefinitions="*, *" RowDefinitions="48, 20, 48, *">
                         <!-- Energy -->
                         <Label Grid.Row="0" Grid.Column="0" Text="{x:Static resources:AppResource.EnergyLabel}" Margin="8,0,8,0" VerticalOptions="CenterAndExpand" >
-                            <!--<Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding Source={x:Reference picENERGY}, Path=SelectedIndex}" Value="-1">
-                                    <Setter Property="TextColor" Value="Red" />
-                                </DataTrigger>
-                            </Label.Triggers>-->
                         </Label>
                         <Picker Grid.Row="0" Grid.Column="1" x:Name="picENERGY" SelectedIndexChanged="OnENERGYChanged" VerticalOptions="FillAndExpand"
                                 ItemsSource="{Binding EnergyList}" SelectedIndex="{Binding Energy}" ItemDisplayBinding="{Binding ENERGYNAME}"
@@ -142,25 +137,12 @@
                             </Picker.Triggers>
                         </Picker>
                         <!-- Button Calculate -->
-                        <Button Grid.Row="2" Grid.Column="0" x:Name="CancelButton" Text="{x:Static resources:AppResource.messageСancel}" BackgroundColor="#515C6B" Margin="0,0,4,0"
+                        <Button Grid.Row="2" Grid.Column="0" Text="Cancel" BackgroundColor="#515C6B" Margin="0,0,4,0"
                                 HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Style="{StaticResource button_Style}" Released="OnCancel" />
                         <Button Grid.Row="2" Grid.Column="1" x:Name="CalculateButton" Text="{x:Static resources:AppResource.CalcButtonLab}" BackgroundColor="#515C6B" Margin="4,0,0,0"
                                 HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Style="{StaticResource button_Style}" Released="OnCalculate" >
                             <Button.Triggers>
-                                <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference entrDENSITY}, Path=Text.Length, Mode=OneWay}" Value="0">
-                                    <Setter Property="IsEnabled" Value="False" />
-                                </DataTrigger>
-                                <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference entrTEMP}, Path=Text.Length, Mode=OneWay}" Value="0">
-                                    <Setter Property="IsEnabled" Value="False" />
-                                </DataTrigger>
-                                <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference picTEMP}, Path=SelectedIndex}" Value="-1">
-                                    <Setter Property="IsEnabled" Value="False" />
-                                </DataTrigger>
-                                <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference picENERGY}, Path=SelectedIndex}" Value="-1">
-                                    <Setter Property="IsEnabled" Value="False" />
-                                </DataTrigger>
-
-                                <!--<MultiTrigger TargetType="Button">
+                                <MultiTrigger TargetType="Button">
                                     <MultiTrigger.Conditions>
                                         <BindingCondition Binding="{Binding Source={x:Reference entrDENSITY}, Path=Text.Length, Mode=OneWay}" Value="0" />
                                         <BindingCondition Binding="{Binding Source={x:Reference entrTEMP}, Path=Text.Length, Mode=OneWay}" Value="0" />
@@ -168,7 +150,7 @@
                                         <BindingCondition Binding="{Binding Source={x:Reference picENERGY}, Path=SelectedIndex}" Value="-1" />
                                     </MultiTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="False" />
-                                </MultiTrigger>-->
+                                </MultiTrigger>
                             </Button.Triggers>
                         </Button>
                     </Grid>

@@ -54,14 +54,14 @@
                     </StackLayout>
                     <!-- SaveCommandBar -->
                     <StackLayout x:Name="SaveCommandBar" Orientation="Horizontal" HorizontalOptions="End" Spacing="0" IsVisible="False">
-                        <Button x:Name="SaveButton" Text="{StaticResource SaveIcon}" Released="OnSave" >
+                        <Button Text="{StaticResource SaveIcon}" Released="OnSave" >
                             <Button.Triggers>
                                 <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference editNAME}, Path=Text.Length, Mode=OneWay}" Value="0">
                                     <Setter Property="IsEnabled" Value="False" />
                                 </DataTrigger>
                             </Button.Triggers>
                         </Button>
-                        <Button x:Name="CancelButton" Text="{StaticResource CancelIcon}" Released="OnCancel" />
+                        <Button Text="{StaticResource CancelIcon}" Released="OnCancel" />
                     </StackLayout>
                 </StackLayout>
             </Grid>
@@ -70,7 +70,7 @@
             <Grid x:Name="Body" VerticalOptions="FillAndExpand" ColumnSpacing="0" RowSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="{x:OnIdiom Phone=0, Tablet=*, Desktop=*}" />
+                    <ColumnDefinition Width="{x:OnIdiom 0, Tablet=*, Desktop=*}" />
                 </Grid.ColumnDefinitions>
 
                 <!-- Navigation items-->
@@ -81,8 +81,8 @@
                         </DataTrigger>
                     </StackLayout.Triggers>
                     <!-- Master ListView -->
-                    <ListView x:Name="MasterContent" HasUnevenRows="True" BackgroundColor="Transparent" ItemsSource="{Binding Collection}"
-                              ItemTapped="OnTapped" ItemSelected="OnSelection" SeparatorVisibility="None" CachingStrategy="RecycleElement" SelectedItem="{Binding SelectJoinItem, Mode=TwoWay}">
+                    <ListView x:Name="MasterContent" HasUnevenRows="True" ItemsSource="{Binding Collection}" BackgroundColor="Transparent"
+                              ItemTapped="OnTapped" ItemSelected="OnSelection" SeparatorVisibility="None" CachingStrategy="RecycleElement" SelectedItem="{Binding SelectItem, Mode=TwoWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -111,19 +111,19 @@
                         <!-- Name -->
                         <StackLayout Margin="0,0,0,0" VerticalOptions="Start" Spacing="0" >
                             <Label Text="{x:Static resources:AppResource.Name}" TextColor="#515C6B" />
-                            <Editor x:Name="editNAME" Text="{Binding SelectJoinItem.TYPENAME}" Placeholder="{x:Static resources:AppResource.HeaderName}"/>
+                            <Editor x:Name="editNAME" Text="{Binding SelectItem.TYPENAME}" Placeholder="{x:Static resources:AppResource.HeaderName}"/>
                         </StackLayout>
 
                         <!-- Description -->
                         <StackLayout Margin="0,20,0,0" VerticalOptions="Start" Spacing="0" >
                             <Label Text="{x:Static resources:AppResource.Description}" TextColor="#515C6B" />
-                            <Editor x:Name="editDESCRIPTION" Text="{Binding SelectJoinItem.DESCRIPTION}" Placeholder="{x:Static resources:AppResource.HeaderDescription}" VerticalOptions="FillAndExpand" />
+                            <Editor Text="{Binding SelectItem.DESCRIPTION}" Placeholder="{x:Static resources:AppResource.HeaderDescription}" VerticalOptions="FillAndExpand" />
                         </StackLayout>
 
                         <!-- Note -->
                         <StackLayout Margin="0,20,0,0" VerticalOptions="FillAndExpand" Spacing="0" >
                             <Label Text="{x:Static resources:AppResource.Note}" TextColor="#515C6B" />
-                            <Editor x:Name="editNOTE" Text="{Binding SelectJoinItem.NOTE}" Placeholder="{x:Static resources:AppResource.HeaderNote}" VerticalOptions="FillAndExpand" />
+                            <Editor Text="{Binding SelectItem.NOTE}" Placeholder="{x:Static resources:AppResource.HeaderNote}" VerticalOptions="FillAndExpand" />
                         </StackLayout>
                     </StackLayout>
                 </ScrollView>
