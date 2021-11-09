@@ -19,7 +19,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>FDCAPPKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>C21C3F28F817A9B0BA03B61806FC72FCA41E6FF6</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>B9223B4AB4DE9D7BD5A9AF735CCAB7CCAFBDC565</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
